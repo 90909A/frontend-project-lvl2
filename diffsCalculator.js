@@ -1,4 +1,22 @@
 import fs from 'fs';
+import yaml from 'js-yaml';
+
+const jsonFormat = 0;
+const yamlFormat = 1;
+
+const getFormat = (filepath1, filepath2) => {
+	if (filepath1.substr(-4) === 'json' && filepath2.substr(-4) === 'json') {
+		return jsonFormat;
+	}
+	if (filepath1.substr(-4) === 'yaml'  && filepath2.substr(-4) === 'yaml') {
+		return yamlFormat;
+	}
+	if (filepath1.substr(-3) === 'yml'  && filepath2.substr(-3) === 'yml') {
+		return yamlFormat;
+	}
+};
+
+
 
 const getDiffs = (object1, object2) => {
 	let diffs = [];
@@ -46,11 +64,19 @@ const convertToString = (diffs) => {
 	return result;
 };
 
-const diffs = (filepath1, filepath2) => {
+const calculateDiffs = (filepath1, filepath2) => {
 	const file1 = fs.readFileSync(filepath1);
     const file2 = fs.readFileSync(filepath2);
-    const object1 = JSON.parse(file1);
-    const object2 = JSON.parse(file2);
+	let object1 = {};
+	let object2 = {}
+	if (getFormat(filepath1, filepath2) === jsonFormat) {
+    	object1 = JSON.parse(file1);
+    	object2 = JSON.parse(file2);
+	}
+	if (getFormat(filepath1, filepath2) === yamlFormat) {
+		object1 = yaml.load(file1);
+		object2 = yaml.load(file2);
+		}
 	const diffs = getDiffs(object1, object2);
 	const sortedDiffs = getSortedDiffs(diffs);
 	const result = convertToString(sortedDiffs);
