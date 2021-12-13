@@ -1,4 +1,4 @@
-import { step3 } from './step3.js';
+import { calculateDiffs } from './diffsCalculator.js';
 import { program } from 'commander';
 
 //const program = require('commander');//
@@ -10,6 +10,6 @@ program
 .argument('<filepath1>')
 .argument('<filepath2>')
 .action((filepath1, filepath2) => {
-  console.log(step3(filepath1,filepath2));
+  console.log(calculateDiffs(filepath1,filepath2));
   })
 .parse(process.argv);
