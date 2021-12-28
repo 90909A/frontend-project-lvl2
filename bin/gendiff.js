@@ -1,4 +1,4 @@
-import { calculateDiffs } from './diffsCalculator.js';
+import { calculateDiffs } from '../src/gendiff.js';
 import { program } from 'commander';
 
 //const program = require('commander');//
@@ -10,6 +10,6 @@ program
 .argument('<filepath1>')
 .argument('<filepath2>')
 .action((filepath1, filepath2) => {
-  console.log(calculateDiffs(filepath1,filepath2));
+  console.log(gendiff(filepath1,filepath2));
   })
 .parse(process.argv);
