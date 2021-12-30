@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "eslint": "^8.5.0",
+    "eslint-plugin-jest": "^25.3.2",
     "jest": "^27.4.3",
     "jest-fixture": "^3.0.0"
   }
