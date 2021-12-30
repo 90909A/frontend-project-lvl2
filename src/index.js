@@ -1,11 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import parse from './parsers.js';
-import stylish from './formatters/stylish.js';
-import plain from './formatters/plain.js';
 import buildDiff from './buildDiff.js';
+import format from './formatters/index.js';
 
-const genDiff = (filepath1, filepath2) => {
+const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
 const fileContents1 = fs.readFileSync(filepath1, 'utf8');
 const fileContents2 = fs.readFileSync(filepath2, 'utf8');
 
@@ -17,8 +16,7 @@ const dataFromFile2 = parse(format2, fileContents2);
 
 const diff = buildDiff(dataFromFile1, dataFromFile2);
 
-const formattedDiff = `${stylish(diff)}${plain(diff)}`;
-return formattedDiff;
+return format(formatName, diff);
 };
 
 
