@@ -1,5 +1,5 @@
-import { calculateDiffs } from '../src/gendiff.js';
 import { program } from 'commander';
+import gendiff from '../src/index.js';
 
 //const program = require('commander');//
 

@@ -1,19 +1,57 @@
-const stylish1 = (sortedDiffs, space = ' ', spacesCount = 2, depth = 0) => {
-	if (sortedDiffs.length === 0) {
-		return '';
-	}
-	let result = '';
-	for (const diff of sortedDiffs) {
-		if (Array.isArray(diff.value)) {
-			result += `${space.repeat(spacesCount * (depth + 1))}${diff.sign} ${diff.key}: ${stylish1(diff.value, space, spacesCount, depth + 2)}`
-		} else {
-			result += `${space.repeat(spacesCount * (depth + 1))}${diff.sign} ${diff.key}: ${(diff.value)}\n`
-		}
-	}
-	if (depth === 0) {
-		return `{\n${result}${space.repeat(spacesCount * (depth))}}`;
-	}
-	return `{\n${result}${space.repeat(spacesCount * (depth))}}\n`;
+import _ from 'lodash';
+
+const getIndent = (depth, spacesCount = 4) => ' '.repeat(depth * spacesCount - 2);
+
+const stringify = (diff, depth) => {
+  if (!_.isPlainObject(diff)) {
+    return diff;
+  }
+
+  const obj = diff;
+  const keys = Object.keys(obj);
+  const indent = getIndent(depth);
+  const braceIndent = getIndent(depth - 1);
+
+  const innerPart = keys.map((key) => {
+    const currentValue = obj[key];
+    if (_.isPlainObject(currentValue)) {
+      return `${indent}  ${key}: ${stringify(currentValue, depth + 1)}`;
+    }
+
+    return `${indent}  ${key}: ${currentValue}`;
+  });
+
+  return `{\n${innerPart.join('\n')}\n${braceIndent}  }`;
 };
 
-export default stylish1;
+const stylish = (diff) => {
+  const iter = (depth, node) => node.flatMap((child) => {
+    const {
+      key, value, status, oldValue, children,
+    } = child;
+    const indent = getIndent(depth);
+    const nextLevelDepth = depth + 1;
+
+    switch (status) {
+      case 'nested':
+        return `${indent}  ${key}: {\n${iter(nextLevelDepth, children)}\n${indent}  }`.split(',');
+      case 'updated':
+        return `${indent}- ${key}: ${stringify(oldValue, nextLevelDepth)}\n${indent}+ ${key}: ${stringify(value, nextLevelDepth)}`;
+      case 'added':
+        return `${indent}+ ${key}: ${stringify(value, nextLevelDepth)}`;
+      case 'removed':
+        return `${indent}- ${key}: ${stringify(value, nextLevelDepth)}`;
+      case 'unchanged':
+        return `${indent}  ${key}: ${value}`;
+      default:
+        throw new Error(`Unexpected condition ${status}. Please check the input data.`);
+    }
+  });
+
+  const startDepth = 1;
+  const innerPart = iter(startDepth, diff);
+
+  return `{\n${innerPart.join('\n')}\n}`;
+};
+
+export default stylish;
