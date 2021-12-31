@@ -8,7 +8,7 @@ test:
 	npm test
 
 test-coverage:
-	npx test -- --coverage
+	npm test -- --coverage
 
 install: 
 	npm install
