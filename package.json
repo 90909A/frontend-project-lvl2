@@ -5,10 +5,10 @@
   },
   "version": "1.0.0",
   "description": "frontend-project-lvl2",
-  "main": "src/index.js",
+  "main": "bin/gendiff.js",
   "type": "module",
   "bin": {
-    "gendiff": "/bin/gendiff.js"
+    "gendiff": "bin/gendiff.js"
   },
   "scripts": {
     "test": "jest",
