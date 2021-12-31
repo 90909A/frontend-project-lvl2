@@ -9,3 +9,6 @@ test:
 
 test-coverage:
 	npx test -- --coverage
+
+install: 
+	npm install
