@@ -1,5 +1,4 @@
 import { expect, test } from '@jest/globals';
-import fs from 'fs';
 import genDiff from '../src/index.js';
 
 test('test genDiff format stylish', () => {
