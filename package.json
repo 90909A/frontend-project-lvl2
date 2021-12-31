@@ -5,6 +5,7 @@
   },
   "version": "1.0.0",
   "description": "frontend-project-lvl2",
+  "main": "src/index.js",
   "type": "module",
   "bin": {
     "gendiff": "bin/gendiff.js"
@@ -21,6 +22,10 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/90909A/frontend-project-lvl2/issues"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
   },
   "homepage": "https://github.com/90909A/frontend-project-lvl2#readme",
   "dependencies": {
