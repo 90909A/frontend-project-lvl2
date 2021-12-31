@@ -7,7 +7,9 @@
   "description": "frontend-project-lvl2",
   "main": "src/index.js",
   "type": "module",
-  "bin": "bin/gendiff.js",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
   "scripts": {
     "test": "jest",
     "test-coverage": "jest --coverage"
