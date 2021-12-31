@@ -5,7 +5,6 @@
   },
   "version": "1.0.0",
   "description": "frontend-project-lvl2",
-  "main": "src/index.js",
   "type": "module",
   "bin": {
     "gendiff": "/bin/gendiff.js"
